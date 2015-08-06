@@ -1,0 +1,213 @@
+@mixin custom-easing($property: all, $time: 500ms, $timing-func: ease) {
+    transition: $property $time $timing-func;
+    transition-timing-function: $timing-func;
+}
+
+@mixin ease-in-out($property: all, $time: 500ms) {
+    @include custom-easing($property, $time, cubic-bezier(0.420, 0.000, 0.580, 1.000));
+}
+
+@mixin ease-in-out-quad($property, $time) {
+    @include custom-easing($property, $time, cubic-bezier(0.455, 0.030, 0.515, 0.955));
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, serif;
+}
+
+main {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.tree {
+    position: relative;
+
+    .selected-item {
+        display: inline-block;
+        height: 33px;
+        line-height: 33px;
+        width: 250px;
+        border: 1px solid #bfbfbf;
+        cursor: pointer;
+        padding-left: 15px;
+        position: relative;
+        color: #999;
+        position: relative;
+
+        &::after {
+            content: ' ';
+            display: block;
+            position: absolute;
+            right: 15px;
+            top: 14px;
+            background: url(/images/Triangle.svg);
+            width: 9px;
+            height: 5px;
+            opacity: .5;
+            transform: rotate(0deg);
+            transition: transform .5s;
+        }
+
+        &+div {
+            @include ease-in-out-quad(left, 300ms);
+            left: -9000px;
+        }
+
+        &.open {
+            border: {
+                color: #a6a6a6;
+            }
+            background-color: #f2f2f2;
+            box-shadow: inset 0 0 5px #dfdfdf;
+
+            &::after {
+                transform: rotate(180deg);
+                opacity: 1;
+            }
+
+            &+div {
+                left: 0px;
+            }
+        }
+    }
+
+    .tree-elements {
+        position: absolute;
+        margin-top: 15px;
+        width: 400px;
+        min-height: 100px;
+        border: 1px solid #bfbfbf;
+        padding: 14px;
+
+        .controls {
+            .search {
+                border: 1px solid #bfbfbf;
+                height: 33px;
+                box-shadow: inset 0 0 5px #dfdfdf;
+                background-color: #fafafa;
+                position: relative;
+
+                &.focused {
+                    &::before {
+                        opacity: 1;
+                    }
+                }
+
+                &::before {
+                    content: ' ';
+                    display: block;
+                    position: absolute;
+                    left: 5px;
+                    width: 19px;
+                    height: 100%;
+                    background: url(/images/Search.svg) no-repeat 0 50%;
+                    background-size: 19px 19px;
+                    opacity: .5;
+                    cursor: pointer;
+                }
+
+                &>input {
+                    width: 340px;
+                    padding: 0 28px;
+                    background-color: transparent;
+                    border: 0px;
+                    font-weight: 300;
+                    line-height: 33px;
+                    font-size: 23px;
+                    cursor: pointer;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+            }
+
+            .add {
+                margin-top: 10px;
+
+                a {
+                    color: #999;
+
+                    &,&:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+
+        .separator {
+            width: 100%;
+            height: 1px;
+            background-color: #ebebeb;
+            margin: 10px 0;
+        }
+
+        .list {
+            height: 200px;
+            overflow-y: scroll;
+
+            &>ul {
+                margin-top: 0px;
+
+                &.jqtree-tree {
+                    &>li:not(.jqtree-folder) {
+                        .jqtree-element {
+                            span {
+                                margin-left: 0.6em;
+                            }
+                        }
+                    }
+                }
+
+                li {
+                    &.jqtree-selected {
+                        &>.jqtree-element {
+                            background: transparent;
+                        }
+                    }
+
+                    .jqtree-element {
+                        height: 30px;
+                        margin-right: 10px;
+
+                        span {
+                            line-height: 30px;
+                            color: #353535;
+                            font-size: 14px;
+                        }
+
+                        &:hover {
+                            border: 1px solid #ccc;
+                            background-color: #fafafa;
+
+                            &::after {
+                                content: ' ';
+                                display: block;
+                                position: absolute;
+                                right: 5px;
+                                top: 5px;
+                                width: 10px;
+                                height: 20px;
+                                background: url(/images/Drag-affordance.svg) no-repeat 90% 50%;
+                                opacity: .5;
+                            }
+
+                            &::before {
+                                content: ' ';
+                                display: block;
+                                position: absolute;
+                                right: 20px;
+                                top: 5px;
+                                width: 15px;
+                                height: 20px;
+                                background: transparent url(/images/Settings.svg) no-repeat 100% 50%;
+                                opacity: .5;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

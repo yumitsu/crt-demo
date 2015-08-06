@@ -1,0 +1,23 @@
+{
+  "name": "crt-demo",
+  "version": "0.0.0",
+  "authors": [
+    "Alex Zinchenko <yumitsu.kun@gmail.com>"
+  ],
+  "moduleType": [
+    "es6",
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize.css": "~3.0.3",
+    "jqtree": "~1.2.1"
+  }
+}
